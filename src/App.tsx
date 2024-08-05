@@ -8,6 +8,7 @@ import Tab from './components/Tab/Tab';
 //import { format } from 'date-fns';
 import Chart from './components/Chart/Chart';
 import ChartData from './interface/chartdata';
+import useLocalStorage from './hooks/useLocalStorage';
 
 
 
@@ -100,7 +101,8 @@ const tabs: TabData[] = [
 }); */
 
 function App() {
-  const [activeTab, setActiveTab] = useState<string>("precipitations");
+  const [activeTab, setActiveTab] = useLocalStorage("activeTab", "precipitations");
+  //const [activeTab, setActiveTab] = useState<string>("precipitations");
   const [labelChart, setlabelChart] = useState<string>("Précipitations");
   const [loading, setLoading] = useState<boolean>(true);
   const [timeChart, setTimeChart] = useState<boolean>(false);
@@ -132,7 +134,7 @@ function App() {
       setTimeChart(true)
       setlabelChart(tab?.title)
       fetchData(pathTemperature,";")
-        .then(fetchedData => setData(fetchedData))
+        .then(fetchedData => {setData(fetchedData), console.log(fetchedData)})
         .catch(error => console.error('Error fetching data:', error))
     }
     setLoading(false)
@@ -140,14 +142,14 @@ function App() {
   }, [activeTab]);
 
 
-  useEffect(() => {
+  /* useEffect(() => {
 
     fetchData(pathRainLevel,",")
-      .then(fetchedData => setData(fetchedData))
+      .then(fetchedData => {setData(fetchedData), console.log(fetchedData)})
       .catch(error => console.error('Error fetching data:', error))
 
     setLoading(false)
-  }, []);
+  }, []); */
 
 
   return (
